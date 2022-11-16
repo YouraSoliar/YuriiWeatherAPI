@@ -23,7 +23,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private static final String TAG = "WeatherAPI";
 
-    private MutableLiveData<List<WeatherDay>> weatherDay = new MutableLiveData<>();
+    private MutableLiveData<List<WeatherDay>> weatherDays = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MainViewModel(@NonNull Application application) {
@@ -31,7 +31,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<WeatherDay>> getWeatherDay() {
-        return weatherDay;
+        return weatherDays;
     }
 
     public void loadWeatherDay(String city) {
@@ -40,8 +40,8 @@ public class MainViewModel extends AndroidViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<WeatherDay>>() {
                     @Override
-                    public void accept(List<WeatherDay> weather) throws Throwable {
-                        weatherDay.setValue(weather);
+                    public void accept(List<WeatherDay> weathers) throws Throwable {
+                        weatherDays.setValue(weathers);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
