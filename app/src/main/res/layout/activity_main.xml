@@ -40,10 +40,10 @@
         android:layout_marginTop="10dp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWeather"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:id="@+id/recyclerViewWeather"
         tools:layout_editor_absoluteX="16dp"
         tools:listitem="@layout/weather_item"
         tools:itemCount="14"

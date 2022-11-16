@@ -3,13 +3,16 @@ package com.example.yuriiweatherapi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,16 +24,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewMax;
-    private TextView textViewMin;
-    private TextView textViewAvg;
-    private TextView textViewDate;
-    private TextView textViewFall;
     private EditText editTextCity;
     private TextView textViewFind;
+    private RecyclerView recyclerViewWeather;
+    private WeatherAdapter adapter;
 
     private MainViewModel viewModel;
 
@@ -45,27 +46,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        textViewAvg = findViewById(R.id.textViewAvg);
-        textViewMin = findViewById(R.id.textViewMin);
-        textViewMax = findViewById(R.id.textViewMax);
-        textViewDate = findViewById(R.id.textViewDate);
-        textViewFall = findViewById(R.id.textViewFall);
         editTextCity = findViewById(R.id.editTextCity);
         textViewFind = findViewById(R.id.textViewFind);
+        recyclerViewWeather = findViewById(R.id.recyclerViewWeather);
+        adapter = new WeatherAdapter();
+        recyclerViewWeather.setAdapter(adapter);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
     }
 
     public void initAction() {
-        viewModel.getWeatherDay().observe(this, new Observer<WeatherDay>() {
+        viewModel.getWeatherDay().observe(this, new Observer<List<WeatherDay>>() {
             @Override
-            public void onChanged(WeatherDay weatherDay) {
-
+            public void onChanged(List<WeatherDay> weatherDays) {
+                adapter.setWeathers(weatherDays);
             }
         });
         textViewFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.loadWeatherDay(editTextCity.getText().toString());
-
+                if (editTextCity.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, getText(R.string.toast_fill_field), Toast.LENGTH_SHORT).show();
+                } else {
+                    viewModel.loadWeatherDay(editTextCity.getText().toString());
+                }
             }
         });
     }

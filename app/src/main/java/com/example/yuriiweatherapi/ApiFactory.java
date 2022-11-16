@@ -8,8 +8,7 @@ public class ApiFactory {
     private static ApiService apiService;
     private static final String API_KEY = "7a56f2fc25654cf1aaa180014221611";
     private static final int COUNT = 14;
-    private static final String BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key="
-            + API_KEY + "&days=" + COUNT + "&q=";
+    private static final String BASE_URL = "https://api.weatherapi.com/v1/";
 
     public static ApiService getApiService() {
         if (apiService == null) {

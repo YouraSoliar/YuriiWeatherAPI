@@ -1,6 +1,7 @@
 package com.example.yuriiweatherapi;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -19,19 +21,16 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private static final String API_KEY = "7a56f2fc25654cf1aaa180014221611";
-    private static final int COUNT = 14;
-    private static final String BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key="
-            + API_KEY + "&q=%s&days=" + COUNT;
+    private static final String TAG = "WeatherAPI";
 
-    private MutableLiveData<WeatherDay> weatherDay = new MutableLiveData<>();
+    private MutableLiveData<List<WeatherDay>> weatherDay = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<WeatherDay> getWeatherDay() {
+    public LiveData<List<WeatherDay>> getWeatherDay() {
         return weatherDay;
     }
 
@@ -39,22 +38,23 @@ public class MainViewModel extends AndroidViewModel {
         Disposable disposable = loadWeatherDayRx(city)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<WeatherDay>() {
+                .subscribe(new Consumer<List<WeatherDay>>() {
                     @Override
-                    public void accept(WeatherDay weather) throws Throwable {
+                    public void accept(List<WeatherDay> weather) throws Throwable {
                         weatherDay.setValue(weather);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Throwable {
                         Toast.makeText(getApplication(), "error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, throwable.getMessage());
                     }
                 });
         compositeDisposable.add(disposable);
 
     }
 
-    private Single<WeatherDay> loadWeatherDayRx(String city) {
+    private Single<List<WeatherDay>> loadWeatherDayRx(String city) {
         return ApiFactory.getApiService().loadWeatherDay(city);
     }
 
