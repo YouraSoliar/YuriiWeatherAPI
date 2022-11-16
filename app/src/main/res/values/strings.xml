@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">YuriiWeatherAPI</string>
+    <string name="edit_text_city">tap your city</string>
+    <string name="text_view_max">max:</string>
+    <string name="text_view_avg">avg:</string>
+    <string name="text_view_min">min:</string>
+    <string name="text_view_fall_out">fall out:</string>
 </resources>
