@@ -5,4 +5,5 @@
     <string name="text_view_avg">avg:</string>
     <string name="text_view_min">min:</string>
     <string name="text_view_fall_out">fall out:</string>
+    <string name="button_find_weather">find weather</string>
 </resources>

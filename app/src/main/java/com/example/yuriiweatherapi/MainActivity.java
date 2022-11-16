@@ -1,11 +1,13 @@
 package com.example.yuriiweatherapi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,17 +24,13 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String API_KEY = "7a56f2fc25654cf1aaa180014221611";
-    private static final int COUNT = 14;
-    private static final String BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key="
-            + API_KEY + "&q=%s&days=" + COUNT;
-
     private TextView textViewMax;
     private TextView textViewMin;
     private TextView textViewAvg;
     private TextView textViewDate;
     private TextView textViewFall;
     private EditText editTextCity;
+    private TextView textViewFind;
 
     private MainViewModel viewModel;
 
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         initView();
+        initAction();
     }
 
     public void initView() {
@@ -52,76 +51,22 @@ public class MainActivity extends AppCompatActivity {
         textViewDate = findViewById(R.id.textViewDate);
         textViewFall = findViewById(R.id.textViewFall);
         editTextCity = findViewById(R.id.editTextCity);
+        textViewFind = findViewById(R.id.textViewFind);
     }
 
-    private class GetUrlData extends AsyncTask<String, String, String> {
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try {
-                URL url = new URL(strings[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line).append("\n");
-                }
-
-                return buffer.toString();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return null;
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-
-                    String weather = jsonObject.getJSONArray("weather").getJSONObject(0).getString("main");
-                    String weatherDescription = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-                    double windSpeed = jsonObject.getJSONObject("wind").getDouble("speed");
-                    String sunset = String.valueOf(jsonObject.getJSONObject("sys").getLong("sunset")).substring(0, 10);
-                    String sunrise = String.valueOf(jsonObject.getJSONObject("sys").getLong("sunrise")).substring(0, 10);
-                    long unixSunset = Long.parseLong(sunset);
-                    long unixSunrise = Long.parseLong(sunrise);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
+    public void initAction() {
+        viewModel.getWeatherDay().observe(this, new Observer<WeatherDay>() {
+            @Override
+            public void onChanged(WeatherDay weatherDay) {
 
             }
-        }
+        });
+        textViewFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.loadWeatherDay(editTextCity.getText().toString());
+
+            }
+        });
     }
 }
