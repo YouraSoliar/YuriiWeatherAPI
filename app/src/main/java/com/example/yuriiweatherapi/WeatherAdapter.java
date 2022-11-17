@@ -35,13 +35,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         WeatherDay weather = weathers.get(position);
 
-        holder.textViewMax.setText((int) weather.getMaxTemperature());
-        holder.textViewMin.setText((int) weather.getMinTemperature());
-        holder.textViewAvg.setText((int) weather.getAvgTemperature());
+        holder.textViewMax.setText((int) weather.getTemperature().getMaxTemperature());
+        holder.textViewMin.setText((int) weather.getTemperature().getMinTemperature());
+        holder.textViewAvg.setText((int) weather.getTemperature().getAvgTemperature());
         holder.textViewDate.setText(weather.getDate());
-        if (weather.isRain() == 1) {
+        if (weather.getTemperature().isRain() == 1) {
             holder.textViewFall.setText(R.string.rain);
-        } else if (weather.isSnow() == 1) {
+        } else if (weather.getTemperature().isSnow() == 1) {
             holder.textViewFall.setText(R.string.snow);
         } else {
             holder.textViewFall.setText(R.string.none);

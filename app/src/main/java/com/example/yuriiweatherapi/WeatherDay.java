@@ -1,43 +1,26 @@
 package com.example.yuriiweatherapi;
 
+import com.google.gson.annotations.SerializedName;
+
 public class WeatherDay {
-    private double maxTemperature;
-    private double minTemperature;
-    private double avgTemperature;
+
+    @SerializedName("date")
     private String date;
-    private int isRain;
-    private int isSnow;
+    @SerializedName("day")
+    private Temperature temperature;
 
-    public WeatherDay(double maxTemperature, double minTemperature, double avgTemperature, String date, int isRain, int isSnow) {
-        this.maxTemperature = maxTemperature;
-        this.minTemperature = minTemperature;
-        this.avgTemperature = avgTemperature;
+    public WeatherDay(String date, Temperature temperature) {
         this.date = date;
-        this.isRain = isRain;
-        this.isSnow = isSnow;
+        this.temperature = temperature;
     }
 
-    public double getMaxTemperature() {
-        return maxTemperature;
-    }
-
-    public double getMinTemperature() {
-        return minTemperature;
-    }
-
-    public double getAvgTemperature() {
-        return avgTemperature;
+    public Temperature getTemperature() {
+        return temperature;
     }
 
     public String getDate() {
         return date;
     }
 
-    public int isRain() {
-        return isRain;
-    }
 
-    public int isSnow() {
-        return isSnow;
-    }
 }
