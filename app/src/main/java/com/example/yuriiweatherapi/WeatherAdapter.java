@@ -19,8 +19,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return new ArrayList<>(weathers);
     }
 
-    public void setWeathers(List<WeatherDay> weathers) {
-        this.weathers = weathers;
+    public void setWeathers(List<WeatherDay> weathersVM) {
+        this.weathers = weathersVM;
         notifyDataSetChanged();
     }
 
@@ -35,9 +35,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         WeatherDay weather = weathers.get(position);
 
-        holder.textViewMax.setText((int) weather.getTemperature().getMaxTemperature());
-        holder.textViewMin.setText((int) weather.getTemperature().getMinTemperature());
-        holder.textViewAvg.setText((int) weather.getTemperature().getAvgTemperature());
+        holder.textViewMax.setText(weather.getTemperature().getMaxTemperature());
+        holder.textViewMin.setText(weather.getTemperature().getMinTemperature());
+        holder.textViewAvg.setText(weather.getTemperature().getAvgTemperature());
         holder.textViewDate.setText(weather.getDate());
         if (weather.getTemperature().isRain() == 1) {
             holder.textViewFall.setText(R.string.rain);
@@ -54,7 +54,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return weathers.size();
     }
 
-    class WeatherViewHolder extends RecyclerView.ViewHolder {
+    static class WeatherViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewMax;
         private TextView textViewMin;

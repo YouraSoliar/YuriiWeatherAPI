@@ -7,6 +7,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    @GET("forecast.json?key=7a56f2fc25654cf1aaa180014221611&days=14&q=\";")
-    Single<List<WeatherDay>> loadWeatherDay(@Query("q") String city);
+    @GET("forecast.json?key=7a56f2fc25654cf1aaa180014221611&days=14&q=lviv")
+    Single<WeatherResponse> loadWeatherDay();
 }

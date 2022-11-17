@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,13 +27,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextCity;
     private TextView textViewFind;
     private RecyclerView recyclerViewWeather;
     private WeatherAdapter adapter;
-
+    private static final String TAG = "WeatherAPI";
     private MainViewModel viewModel;
 
     @Override
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, getText(R.string.toast_fill_field), Toast.LENGTH_SHORT).show();
                 } else {
                     viewModel.loadWeatherDay(editTextCity.getText().toString());
+
                 }
             }
         });

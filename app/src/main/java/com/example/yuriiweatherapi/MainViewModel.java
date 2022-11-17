@@ -23,8 +23,8 @@ public class MainViewModel extends AndroidViewModel {
 
     private static final String TAG = "WeatherAPI";
 
-    private MutableLiveData<List<WeatherDay>> weatherDays = new MutableLiveData<>();
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final MutableLiveData<List<WeatherDay>> weatherDays = new MutableLiveData<>();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -35,27 +35,24 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void loadWeatherDay(String city) {
-        Disposable disposable = loadWeatherDayRx(city)
+        Disposable disposable = ApiFactory.apiService.loadWeatherDay()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<WeatherDay>>() {
+                .subscribe(new Consumer<WeatherResponse>() {
                     @Override
-                    public void accept(List<WeatherDay> weathers) throws Throwable {
-                        weatherDays.setValue(weathers);
+                    public void accept(WeatherResponse weatherResponse) throws Throwable {
+                        weatherDays.setValue(weatherResponse.getWeatherDaysResponse().getWeatherDayList());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Throwable {
-                        Toast.makeText(getApplication(), "error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, throwable.getMessage());
                     }
                 });
+
+
         compositeDisposable.add(disposable);
 
-    }
-
-    private Single<List<WeatherDay>> loadWeatherDayRx(String city) {
-        return ApiFactory.getApiService().loadWeatherDay(city);
     }
 
     @Override

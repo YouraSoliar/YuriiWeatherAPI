@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class Temperature {
     @SerializedName("maxtemp_c")
-    private double maxTemperature;
+    private String maxTemperature;
     @SerializedName("mintemp_c")
-    private double minTemperature;
+    private String minTemperature;
     @SerializedName("avgtemp_c")
-    private double avgTemperature;
+    private String avgTemperature;
     @SerializedName("daily_will_it_rain")
     private int isRain;
     @SerializedName("daily_will_it_snow")
     private int isSnow;
 
-    public Temperature(double maxTemperature, double minTemperature, double avgTemperature, int isRain, int isSnow) {
+    public Temperature(String maxTemperature, String minTemperature, String avgTemperature, int isRain, int isSnow) {
         this.maxTemperature = maxTemperature;
         this.minTemperature = minTemperature;
         this.avgTemperature = avgTemperature;
@@ -30,15 +30,15 @@ public class Temperature {
         return isSnow;
     }
 
-    public double getMaxTemperature() {
+    public String getMaxTemperature() {
         return maxTemperature;
     }
 
-    public double getMinTemperature() {
+    public String getMinTemperature() {
         return minTemperature;
     }
 
-    public double getAvgTemperature() {
+    public String getAvgTemperature() {
         return avgTemperature;
     }
 }
