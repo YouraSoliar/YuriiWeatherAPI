@@ -39,10 +39,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         holder.textViewMin.setText(weather.getTemperature().getMinTemperature());
         holder.textViewAvg.setText(weather.getTemperature().getAvgTemperature());
         holder.textViewDate.setText(weather.getDate());
-        if (weather.getTemperature().isRain() == 1) {
-            holder.textViewFall.setText(R.string.rain);
-        } else if (weather.getTemperature().isSnow() == 1) {
+        if (weather.getTemperature().isSnow() == 1) {
             holder.textViewFall.setText(R.string.snow);
+        } else if (weather.getTemperature().isRain() == 1) {
+            holder.textViewFall.setText(R.string.rain);
         } else {
             holder.textViewFall.setText(R.string.none);
         }

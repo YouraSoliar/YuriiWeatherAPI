@@ -1,13 +1,22 @@
 package com.example.yuriiweatherapi;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -26,6 +35,7 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<List<WeatherDay>> weatherDays = new MutableLiveData<>();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
@@ -33,6 +43,10 @@ public class MainViewModel extends AndroidViewModel {
     public LiveData<List<WeatherDay>> getWeatherDay() {
         return weatherDays;
     }
+
+//    public String getLocation() {
+//
+//    }
 
     public void loadWeatherDay(String city) {
         Disposable disposable = ApiFactory.apiService.loadWeatherDay()

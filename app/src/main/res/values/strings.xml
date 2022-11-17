@@ -10,4 +10,5 @@
     <string name="snow">snow</string>
     <string name="none">none</string>
     <string name="toast_fill_field">fill the filed</string>
+    <string name="text_view_get_location">get your location</string>
 </resources>
