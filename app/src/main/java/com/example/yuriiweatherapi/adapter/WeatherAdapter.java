@@ -1,4 +1,4 @@
-package com.example.yuriiweatherapi;
+package com.example.yuriiweatherapi.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.yuriiweatherapi.R;
+import com.example.yuriiweatherapi.response.WeatherDay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         } else {
             holder.textViewFall.setText(R.string.none);
         }
-
     }
 
     @Override
@@ -56,11 +58,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     static class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textViewMax;
-        private TextView textViewMin;
-        private TextView textViewAvg;
-        private TextView textViewDate;
-        private TextView textViewFall;
+        private final TextView textViewMax;
+        private final TextView textViewMin;
+        private final TextView textViewAvg;
+        private final TextView textViewDate;
+        private final TextView textViewFall;
 
         public WeatherViewHolder(@NonNull View itemView) {
             super(itemView);

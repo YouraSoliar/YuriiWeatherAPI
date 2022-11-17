@@ -1,4 +1,4 @@
-package com.example.yuriiweatherapi;
+package com.example.yuriiweatherapi.response;
 
 import com.google.gson.annotations.SerializedName;
 
