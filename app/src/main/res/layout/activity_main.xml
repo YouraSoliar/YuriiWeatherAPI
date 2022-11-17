@@ -55,13 +55,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewWeather"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:listitem="@layout/weather_item"
-        tools:itemCount="14"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFind"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_marginTop="200dp"
+        tools:itemCount="14"
+        tools:listitem="@layout/weather_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

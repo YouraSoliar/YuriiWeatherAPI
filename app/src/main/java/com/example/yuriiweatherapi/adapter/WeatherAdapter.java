@@ -18,10 +18,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     private List<WeatherDay> weathers = new ArrayList<>();
 
-    public List<WeatherDay> getWeathers() {
-        return new ArrayList<>(weathers);
-    }
-
     public void setWeathers(List<WeatherDay> weathersVM) {
         this.weathers = weathersVM;
         notifyDataSetChanged();
