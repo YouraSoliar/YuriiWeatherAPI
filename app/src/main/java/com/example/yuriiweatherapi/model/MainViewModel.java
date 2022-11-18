@@ -1,4 +1,4 @@
-package com.example.yuriiweatherapi.activity;
+package com.example.yuriiweatherapi.model;
 
 import android.Manifest;
 import android.app.Application;
@@ -56,16 +56,21 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplication());
-            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+        if (ActivityCompat.checkSelfPermission(getApplication(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient = LocationServices
+                    .getFusedLocationProviderClient(getApplication());
+            fusedLocationProviderClient
+                    .getLastLocation()
+                    .addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
                     Location location = task.getResult();
                     if (location != null) {
                         Geocoder geocoder = new Geocoder(getApplication(), Locale.ENGLISH);
                         try {
-                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            List<Address> addresses = geocoder.getFromLocation(
+                                    location.getLatitude(), location.getLongitude(), 1);
                             String yourCity = addresses.get(0).getLocality();
                             if (yourCity.contains("'")) {
                                 yourCity = yourCity.replace("'", "");
@@ -91,16 +96,18 @@ public class MainViewModel extends AndroidViewModel {
                     .subscribe(new Consumer<WeatherResponse>() {
                         @Override
                         public void accept(WeatherResponse weatherResponse) throws Throwable {
-                            weatherDays.setValue(weatherResponse.getWeatherDaysResponse().getWeatherDayList());
+                            weatherDays.setValue(weatherResponse
+                                    .getWeatherDaysResponse()
+                                    .getWeatherDayList());
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Throwable {
                             Log.d(TAG, throwable.getMessage());
-                            Toast.makeText(getApplication(), R.string.toast_no_city, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(),
+                                    R.string.toast_no_city, Toast.LENGTH_SHORT).show();
                         }
                     });
-
             compositeDisposable.add(disposable);
         }
     }

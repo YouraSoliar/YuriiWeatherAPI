@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.yuriiweatherapi.R;
 import com.example.yuriiweatherapi.adapter.WeatherAdapter;
+import com.example.yuriiweatherapi.model.MainViewModel;
 import com.example.yuriiweatherapi.response.WeatherDay;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+        fusedLocationProviderClient = LocationServices
+                .getFusedLocationProviderClient(MainActivity.this);
 
         initView();
         initAction();
@@ -51,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewWeather = findViewById(R.id.recyclerViewWeather);
         adapter = new WeatherAdapter();
         recyclerViewWeather.setAdapter(adapter);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
+        getSupportActionBar()
+                .setBackgroundDrawable(new ColorDrawable(getResources()
+                        .getColor(R.color.orange)));
     }
 
     public void initAction() {
@@ -89,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean checkPermission() {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11);
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11);
             return false;
         } else {
             return true;

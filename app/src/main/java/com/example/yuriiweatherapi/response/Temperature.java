@@ -14,7 +14,11 @@ public class Temperature {
     @SerializedName("daily_will_it_snow")
     private int isSnow;
 
-    public Temperature(String maxTemperature, String minTemperature, String avgTemperature, int isRain, int isSnow) {
+    public Temperature(String maxTemperature,
+                       String minTemperature,
+                       String avgTemperature,
+                       int isRain,
+                       int isSnow) {
         this.maxTemperature = maxTemperature;
         this.minTemperature = minTemperature;
         this.avgTemperature = avgTemperature;
