@@ -1,11 +1,13 @@
-package com.example.yuriiweatherapi.model;
+package com.example.yuriiweatherapi.viewmodel;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,8 +19,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.yuriiweatherapi.R;
 import com.example.yuriiweatherapi.api.ApiFactory;
-import com.example.yuriiweatherapi.response.WeatherDay;
-import com.example.yuriiweatherapi.response.WeatherResponse;
+import com.example.yuriiweatherapi.model.City;
+import com.example.yuriiweatherapi.model.WeatherDay;
+import com.example.yuriiweatherapi.model.WeatherResponse;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,7 +44,7 @@ public class MainViewModel extends AndroidViewModel {
     private final MutableLiveData<List<WeatherDay>> weatherDays = new MutableLiveData<>();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private final MutableLiveData<String> city = new MutableLiveData<>();
+    private final MutableLiveData<City> city = new MutableLiveData<>();
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -51,7 +54,7 @@ public class MainViewModel extends AndroidViewModel {
         return weatherDays;
     }
 
-    public LiveData<String> getCity() {
+    public LiveData<City> getCity() {
         return city;
     }
 
@@ -75,8 +78,8 @@ public class MainViewModel extends AndroidViewModel {
                             if (yourCity.contains("'")) {
                                 yourCity = yourCity.replace("'", "");
                             }
-                            city.setValue(yourCity);
-                            loadWeatherDay(yourCity);
+                            city.setValue(new City(yourCity));
+                            loadWeatherDay(new City(yourCity));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -86,11 +89,11 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
-    public void loadWeatherDay(String city) {
+    public void loadWeatherDay(City city) {
         if (city.equals("")) {
             Toast.makeText(getApplication(), R.string.toast_fill_field, Toast.LENGTH_SHORT).show();
         } else {
-            Disposable disposable = ApiFactory.apiService.loadWeatherDay(city)
+            Disposable disposable = ApiFactory.apiService.loadWeatherDay(city.getCity())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<WeatherResponse>() {
@@ -104,12 +107,20 @@ public class MainViewModel extends AndroidViewModel {
                         @Override
                         public void accept(Throwable throwable) throws Throwable {
                             Log.d(TAG, throwable.getMessage());
+                            if (!isNetworkAvailable(getApplication())) {
+                                Toast.makeText(getApplication(), "No Internet", Toast.LENGTH_SHORT).show();
+                            }
                             Toast.makeText(getApplication(),
                                     R.string.toast_no_city, Toast.LENGTH_SHORT).show();
                         }
                     });
             compositeDisposable.add(disposable);
         }
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
     @Override

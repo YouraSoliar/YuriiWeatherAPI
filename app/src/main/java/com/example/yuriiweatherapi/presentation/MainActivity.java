@@ -1,4 +1,4 @@
-package com.example.yuriiweatherapi.activity;
+package com.example.yuriiweatherapi.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,8 +16,9 @@ import android.widget.TextView;
 
 import com.example.yuriiweatherapi.R;
 import com.example.yuriiweatherapi.adapter.WeatherAdapter;
-import com.example.yuriiweatherapi.model.MainViewModel;
-import com.example.yuriiweatherapi.response.WeatherDay;
+import com.example.yuriiweatherapi.model.City;
+import com.example.yuriiweatherapi.viewmodel.MainViewModel;
+import com.example.yuriiweatherapi.model.WeatherDay;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -60,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void initAction() {
 
-        viewModel.getCity().observe(this, new Observer<String>() {
+        viewModel.getCity().observe(this, new Observer<City>() {
             @Override
-            public void onChanged(String city) {
-                editTextCity.setText(city);
+            public void onChanged(City city) {
+                editTextCity.setText(city.getCity());
             }
         });
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         textViewFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.loadWeatherDay(editTextCity.getText().toString());
+                viewModel.loadWeatherDay(new City(editTextCity.getText().toString()));
             }
         });
 
