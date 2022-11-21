@@ -1,18 +1,17 @@
 package com.example.yuriiweatherapi.adapter;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+        import android.view.LayoutInflater;
+        import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+        import androidx.annotation.NonNull;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yuriiweatherapi.R;
-import com.example.yuriiweatherapi.domain.models.WeatherDay;
+        import com.example.yuriiweatherapi.R;
+        import com.example.yuriiweatherapi.databinding.WeatherItemBinding;
+        import com.example.yuriiweatherapi.domain.models.WeatherDay;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
 
@@ -25,27 +24,24 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     @NonNull
     @Override
-    public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.weather_item, parent,false);
-        return new WeatherViewHolder(view);
+    public WeatherAdapter.WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new WeatherViewHolder(WeatherItemBinding.inflate(LayoutInflater.from(parent.getContext())));
     }
 
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
         WeatherDay weather = weathers.get(position);
 
-        holder.textViewMax.setText(weather.getTemperature().getMaxTemperature());
-        holder.textViewMin.setText(weather.getTemperature().getMinTemperature());
-        holder.textViewAvg.setText(weather.getTemperature().getAvgTemperature());
-        holder.textViewDate.setText(weather.getDate());
+        holder.binding.textViewMax.setText(weather.getTemperature().getMaxTemperature());
+        holder.binding.textViewMin.setText(weather.getTemperature().getMinTemperature());
+        holder.binding.textViewAvg.setText(weather.getTemperature().getAvgTemperature());
+        holder.binding.textViewDate.setText(weather.getDate());
         if (weather.getTemperature().isSnow() == 1) {
-            holder.textViewFall.setText(R.string.snow);
+            holder.binding.textViewFall.setText(R.string.snow);
         } else if (weather.getTemperature().isRain() == 1) {
-            holder.textViewFall.setText(R.string.rain);
+            holder.binding.textViewFall.setText(R.string.rain);
         } else {
-            holder.textViewFall.setText(R.string.none);
+            holder.binding.textViewFall.setText(R.string.none);
         }
     }
 
@@ -54,21 +50,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return weathers.size();
     }
 
-    static class WeatherViewHolder extends RecyclerView.ViewHolder {
+    public static class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView textViewMax;
-        private final TextView textViewMin;
-        private final TextView textViewAvg;
-        private final TextView textViewDate;
-        private final TextView textViewFall;
+        private final WeatherItemBinding binding;
 
-        public WeatherViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewAvg = itemView.findViewById(R.id.textViewAvg);
-            textViewMin = itemView.findViewById(R.id.textViewMin);
-            textViewMax = itemView.findViewById(R.id.textViewMax);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
-            textViewFall = itemView.findViewById(R.id.textViewFall);
+        public WeatherViewHolder(@NonNull WeatherItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
+
