@@ -16,9 +16,8 @@ import android.widget.TextView;
 
 import com.example.yuriiweatherapi.R;
 import com.example.yuriiweatherapi.adapter.WeatherAdapter;
-import com.example.yuriiweatherapi.model.City;
-import com.example.yuriiweatherapi.viewmodel.MainViewModel;
-import com.example.yuriiweatherapi.model.WeatherDay;
+import com.example.yuriiweatherapi.domain.models.City;
+import com.example.yuriiweatherapi.domain.models.WeatherDay;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 

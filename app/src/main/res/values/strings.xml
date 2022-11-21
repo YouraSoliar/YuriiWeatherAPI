@@ -12,4 +12,5 @@
     <string name="toast_fill_field">fill the field</string>
     <string name="text_view_get_location">get your location</string>
     <string name="toast_no_city">no such city</string>
+    <string name="toast_no_internet">No Internet</string>
 </resources>

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yuriiweatherapi.R;
-import com.example.yuriiweatherapi.model.WeatherDay;
+import com.example.yuriiweatherapi.domain.models.WeatherDay;
 
 import java.util.ArrayList;
 import java.util.List;

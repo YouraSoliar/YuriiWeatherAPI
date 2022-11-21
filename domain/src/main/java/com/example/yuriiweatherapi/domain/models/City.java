@@ -1,4 +1,4 @@
-package com.example.yuriiweatherapi.model;
+package com.example.yuriiweatherapi.domain.models;
 
 public class City {
     private String city;
